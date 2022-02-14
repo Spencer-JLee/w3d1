@@ -34,8 +34,22 @@ class Array
     end
 
     def my_flatten
-        return [self] if self.is_a? Array
-        
+        arr = []
+        return [self] if !self.is_a? Array
+        self.my_each {|ele| arr.push(*self.my_flatten)}
+        arr
     end
 
+    def my_zip(*arrs)
+        arr = Array.new(self.length) { Array.new(arrs.length + 1, nil)}
+
+        self.my_each {|ele| arr[self.index(ele)][0] = ele}
+        (1...arrs.length + 1).each do |i|
+            arrs[i].my_each {|ele| arr[arrs[i].index(ele)][i] = ele}
+        end
+
+        arr
+    end
+
+    
 end
